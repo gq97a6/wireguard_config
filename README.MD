@@ -349,7 +349,7 @@ sudo systemctl enable wg-quick@wg2
 
 ### [apply_config.sh](apply_config.sh) - to reload wireguard configuration
 ```bash
-bash apply_config.sh 2
+foo@bar:~$ bash apply_config.sh 2
 [#] ip link delete dev wg2
 [#] ip link add wg2 type wireguard
 [#] wg setconf wg2 /dev/fd/63
@@ -359,14 +359,14 @@ bash apply_config.sh 2
 
 ### [create_pair.sh](create_pair.sh) - to echo new public-private key pair
 ```bash
-bash create_pair.sh
+foo@bar:~$ bash create_pair.sh
 PRIVATE: sEwq9N2y4qGkEQGx0ifjc86AW64XFqtt0jNASW0ADFA=
 PUBLIC: sNZyEAAJYvJuO7QlQFfB+j/5nGjWpEg5vYMfgn8O8C8=
 ```
 
 ### [show_code.sh](show_code.sh) - display QR code for client config stored in `client_configs` folder
 ```bash
-bash show_code.sh client
+foo@bar:~$ bash show_code.sh client
 █████████████████████████████████████████████████████████████████
 █████████████████████████████████████████████████████████████████
 ████ ▄▄▄▄▄ █▄█▄▄█▀▀▀▄██▄ ███▄ ▀▄▀▀   ▀ █  ▄▄███ █▀▄ ██ ▄▄▄▄▄ ████
