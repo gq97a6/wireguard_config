@@ -140,7 +140,7 @@ Policy is a default action that iptables will take if no rule fires.
 * **DROP** policy means packet gets dropped silently with no indication being sent to the client
 * **REJECT** means the packet is rejected with indication being sent to the client
 
-To set **DROP** policy for default table (filter) in all chains use:
+To set policy for default table (filter) in all chains use:
 ```bash
 iptables -P INPUT DROP
 iptables -P OUTPUT ACCEPT
