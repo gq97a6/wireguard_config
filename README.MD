@@ -40,6 +40,11 @@ Devices in this network can access:
 4. Devices in netowork wg2
 
 ### [wg1] - Limited/Conditional trust
+**Subnet for this network:** 10.0.1.0/24  
+**Interface address:** 10.0.1.1  
+**Client addresses:** from 10.0.1.2 to 10.0.1.254  
+**Listen port:** 10010  
+
 Devices in this network can access:
 1. Internet
 2. ~~Devices in netowork wg0~~
@@ -47,6 +52,11 @@ Devices in this network can access:
 4. Devices in netowork wg2
 
 ### [wg2] - No trust
+**Subnet for this network:** 10.0.2.0/24  
+**Interface address:** 10.0.2.1  
+**Client addresses:** from 10.0.2.2 to 10.2.0.254  
+**Listen port:** 10020  
+
 Devices in this network can access:
 1. ~~Internet~~
 2. ~~Devices in netowork wg0~~
