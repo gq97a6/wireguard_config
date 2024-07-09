@@ -1,21 +1,21 @@
-# How to setup wireguard VPN server
+# How to setup WireGuard VPN server
 
 This guide contains instructions how to setup wiregurad server:
-* Includes few usefull bash scripts
+* Includes few useful bash scripts
 * Explains basic iptables usage
-* Teaches you how to use wireguard both from client and server side
+* Teaches you how to use WireGuard both from client and server side
 
 Scripts included in this repo:
 
 * [setup_iptables.sh](setup_iptables.sh) - to configure iptables rules
 
 > [!CAUTION]
-> This script **WIPES ALL EXISTING RULES** and introduces **DROP BY DEFUALT** policy for all incoming and forwarding packets. **STOP ALL DOCKER CONTAINERS** before running this script.
+> This script **WIPES ALL EXISTING RULES** and introduces **DROP BY DEFAULT** policy for all incoming and forwarding packets. **STOP ALL DOCKER CONTAINERS** before running this script.
 
-These four scripts are meant to be stored with wireguard configuration in **/etc/wireguard**
-* [apply_config.sh](apply_config.sh) - to reload wireguard configuration
+These four scripts are meant to be stored with WireGuard configuration in **/etc/WireGuard**
+* [apply_config.sh](apply_config.sh) - to reload WireGuard configuration
 * [create_pair.sh](create_pair.sh) - to echo new public-private key pair
-* [gen_client.sh](gen_client.sh) - to add new wireguard client to existing setup
+* [gen_client.sh](gen_client.sh) - to add new WireGuard client to existing setup
 * [show_code.sh](show_code.sh) - display QR code for client config
 
 > [!NOTE]  
@@ -35,9 +35,9 @@ This network is meant to be used by devices with highest level of trust. You can
 
 Devices in this network can access:
 1. Internet
-2. Devices in netowork wg0
-3. Devices in netowork wg1
-4. Devices in netowork wg2
+2. Devices in network wg0
+3. Devices in network wg1
+4. Devices in network wg2
 
 ### [wg1] - Limited/Conditional trust
 **Subnet for this network:** 10.0.1.0/24  
@@ -47,9 +47,9 @@ Devices in this network can access:
 
 Devices in this network can access:
 1. Internet
-2. ~~Devices in netowork wg0~~
-3. Devices in netowork wg1
-4. Devices in netowork wg2
+2. ~~Devices in network wg0~~
+3. Devices in network wg1
+4. Devices in network wg2
 
 ### [wg2] - No trust
 **Subnet for this network:** 10.0.2.0/24  
@@ -59,24 +59,24 @@ Devices in this network can access:
 
 Devices in this network can access:
 1. ~~Internet~~
-2. ~~Devices in netowork wg0~~
-3. ~~Devices in netowork wg1~~
-4. ~~Devices in netowork wg2~~
+2. ~~Devices in network wg0~~
+3. ~~Devices in network wg1~~
+4. ~~Devices in network wg2~~
 
 ## Steps overview and requirements
 0. Install iptables (not covered)
-1. Install wireguard
+1. Install WireGuard
 2. Setup firewall rules
-3. Setup wireguard
+3. Setup WireGuard
 
-## Step 1. Install wireguard
-Full guide how to install wireguard is coverd on wireguard website [here](www.wireguard.com/install).
+## Step 1. Install WireGuard
+Full guide how to install WireGuard is coverd on WireGuard website [here](www.WireGuard.com/install).
 ```bash
-apt install wireguard
+apt install WireGuard
 ```
 
 ## Step 2. Setup firewall rules
-This step is required for wireguard to work and to enforce rules specified in [Desired effect](#desired-effect)
+This step is required for WireGuard to work and to enforce rules specified in [Desired effect](#desired-effect)
 
 > [!CAUTION]
 > Modifying iptables rules can cause loss of SSH access and disrupt network services, potentially locking you out of your system and exposing it to security risks. It's highly recommended to use other than SSH means to access your server to setup VPN.
@@ -85,11 +85,11 @@ This step is required for wireguard to work and to enforce rules specified in [D
 > Iptables rules are not persisting between system reboots by default. This issue is addressed in later steps.
 
 > [!CAUTION]
-> This guide includes [script](setup_iptables.sh) to setup iptables rules for you. This script **WIPES ALL EXISTING RULES** and introduces **DROP BY DEFUALT** policy for all incoming and forwarding packets. **STOP ALL DOCKER CONTAINERS** and possibly other network services before running this script. Use it **ONLY** if you understand fully how it works and what it does. Remember to open other ports that are not covered in this script if needed.
+> This guide includes [script](setup_iptables.sh) to setup iptables rules for you. This script **WIPES ALL EXISTING RULES** and introduces **DROP BY DEFAULT** policy for all incoming and forwarding packets. **STOP ALL DOCKER CONTAINERS** and possibly other network services before running this script. Use it **ONLY** if you understand fully how it works and what it does. Remember to open other ports that are not covered in this script if needed.
 
 > [!IMPORTANT]
 > Docker uses iptables to configure container networks.
-> This configuration is done each time docker service starts thus docker iptalbes rules should not be included in persistent iptables configuration. Docker also introduces new rules if needed to open ports for containers, so you don't have to worry about **DROP BY DEFUALT** policy. After setting up iptables rules you can run this command to recover all iptables rules required by docker:
+> This configuration is done each time docker service starts thus docker iptalbes rules should not be included in persistent iptables configuration. Docker also introduces new rules if needed to open ports for containers, so you don't have to worry about **DROP BY DEFAULT** policy. After setting up iptables rules you can run this command to recover all iptables rules required by docker:
 ```bash
 sudo systemctl restart docker
 ```
@@ -174,9 +174,9 @@ To accept all traffic coming from the loopback interface (localhost):
 iptables -A _INPUT -i lo -j ACCEPT
 ```
 
-Below are rules to configure wireguard interfaces described in [Desired effect](#desired-effect):
+Below are rules to configure WireGuard interfaces described in [Desired effect](#desired-effect):
 ```bash
-#Wireguard [wg0] (10.0.0.0/24) -------------------------------------------------------------------------
+#WireGuard [wg0] (10.0.0.0/24) -------------------------------------------------------------------------
 
 #Allow all trafic from devices in this network
 iptables -I _FORWARD -s 10.0.0.0/24 -j ACCEPT
@@ -188,7 +188,7 @@ iptables -A _INPUT -i eth0 -p udp --dport 10000 -j ACCEPT
 #Allow internet access
 iptables -A _POSTROUTING -t nat -s 10.0.0.0/24 -o eth0 -j MASQUERADE
 
-#Wireguard [wg1] (10.0.1.0/24) -------------------------------------------------------------------------
+#WireGuard [wg1] (10.0.1.0/24) -------------------------------------------------------------------------
 
 #Allow traffic to other devices in wg1 and wg2
 iptables -A _FORWARD -i wg1 -o wg1 -j ACCEPT
@@ -201,7 +201,7 @@ iptables -A _INPUT -i eth0 -p udp --dport 10010 -j ACCEPT
 iptables -A _FORWARD -i wg1 -o eth0 -j ACCEPT
 iptables -A _POSTROUTING -t nat -s 10.0.1.0/24 -o eth0 -j MASQUERADE
 
-#Wireguard [wg2] (10.0.2.0/24) -------------------------------------------------------------------------
+#WireGuard [wg2] (10.0.2.0/24) -------------------------------------------------------------------------
 
 iptables -A _INPUT -i eth0 -p udp --dport 10020 -j ACCEPT
 ```
@@ -214,9 +214,9 @@ sudo iptables-save > /etc/iptables/rules.v4
 sudo ip6tables-save > /etc/iptables/rules.v6
 ```
 
-## Wireguard
-Basic wireguard configuration is simple:  
-* Configuration files are strored in `/etc/wireguard`
+## WireGuard
+Basic WireGuard configuration is simple:  
+* Configuration files are strored in `/etc/WireGuard`
 * Each interface and client has its own public-private key pair.  
 * Server configuration includes client's public keys and server private key.  
 * Client configuration includes server public keys and client's public key.
@@ -262,24 +262,24 @@ Endpoint = 182.19.249.223:10010
 PersistentKeepalive = 25
 ```
 
-To list all wireguard interfaces
+To list all WireGuard interfaces
 ```bash
 sudo wg
 ```
 
-To load wireguard configuration
+To load WireGuard configuration
 ```bash
 sudo wg-quick up wg0
 ```
 
-To stop wireguard interaface
+To stop WireGuard interaface
 ```bash
 sudo wg-quick down wg0
 ```
 
-## Step 3. Setup wireguard
+## Step 3. Setup WireGuard
 
-1. Copy all required scripts and configuration files from this repository to **/etc/wireguard**.
+1. Copy all required scripts and configuration files from this repository to **/etc/WireGuard**.
 2. Generate public-private key pairs for each interface with [create_pair.sh](create_pair.sh).
 
 3. Edit interfaces private keys in each interface configuration.
@@ -326,7 +326,7 @@ EOL
 
 6. How to add clients is covered in [Scripts usage](#scripts-usage) section.
 
-7. Load wireguard configuration
+7. Load WireGuard configuration
 ```bash
 sudo wg-quick up wg0
 sudo wg-quick up wg1
@@ -347,11 +347,11 @@ sudo systemctl enable wg-quick@wg2
 
 ## Scripts usage
 
-### [apply_config.sh](apply_config.sh) - to reload wireguard configuration
+### [apply_config.sh](apply_config.sh) - to reload WireGuard configuration
 ```bash
 foo@bar:~$ bash apply_config.sh 2
 [#] ip link delete dev wg2
-[#] ip link add wg2 type wireguard
+[#] ip link add wg2 type WireGuard
 [#] wg setconf wg2 /dev/fd/63
 [#] ip -4 address add 10.0.2.1/24 dev wg2
 [#] ip link set mtu 1420 up dev wg2
@@ -401,7 +401,7 @@ foo@bar:~$ bash show_code.sh client
 █████████████████████████████████████████████████████████████████
 █████████████████████████████████████████████████████████████████
 ```
-### [gen_client.sh](gen_client.sh) - to add new wireguard client to existing setup
+### [gen_client.sh](gen_client.sh) - to add new WireGuard client to existing setup
 ```bash
 foo@bar:~$ bash gen_client.sh
 Usage: gen_client.sh <client_name> <client_host> <interface_index>
@@ -415,7 +415,7 @@ AllowedIPs = 10.0.1.1/32
 
 Recommended way to use this script is to open configuration file with nano then use `CTRL + T` shortcut. Output of the command used will be pasted into editor.
 ```bash
-nano /etc/wireguard/wg0
+nano /etc/WireGuard/wg0
 ```
 
 Then save the file and run [apply_config.sh](apply_config.sh) to apply new configuration.  
