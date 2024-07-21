@@ -72,7 +72,7 @@ Devices in this network can access:
 ## Step 1. Install WireGuard
 Full guide how to install WireGuard is coverd on WireGuard website [here](www.WireGuard.com/install).
 ```bash
-apt install WireGuard
+apt install wireguard
 ```
 
 ## Step 2. Setup firewall rules
