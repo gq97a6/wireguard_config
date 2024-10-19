@@ -173,7 +173,7 @@ Client configuration will be save to `/etc/wireguard`
 
 **1. Clients don't have access to the internet.**
 1. Try to change DNS server in client configuration: `DNS = <DNS_SERVER>`.
-2. Make sure you have 
+2. Make sure you have:
 - configured your interface to allow internet access.
 - set `net.ipv4.ip_forward=1` in `/etc/sysctl.conf` and applied changes with `sudo sysctl -p`.
 
